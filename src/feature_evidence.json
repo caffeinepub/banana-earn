@@ -1,0 +1,113 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-implement-internet-identity-login-and-show-a-signed-in-vs-signed-out-experience-for-the-earning-app",
+      "featureTitle": "Implement Internet Identity login and show a signed-in vs signed-out experience for the earning app.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/LoginButton.tsx",
+        "frontend/src/components/auth/ProfileSetupDialog.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-the-main-earning-app-ui-with-pages-sections-for-dashboard-balance-recent-activity-earn-task-list-and-withdraw-request-payout-request-status-list",
+      "featureTitle": "Build the main earning app UI with pages/sections for: Dashboard (balance + recent activity), Earn (task list), and Withdraw (request payout + request status list).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/nav/TopNav.tsx",
+        "frontend/src/pages/DashboardPage.tsx",
+        "frontend/src/pages/EarnPage.tsx",
+        "frontend/src/pages/WithdrawPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-basic-anti-abuse-and-validation-rules-to-keep-the-earning-app-consistent-and-safe-positive-rewards-balance-never-goes-negative-and-withdrawal-amount-checks",
+      "featureTitle": "Add basic anti-abuse and validation rules to keep the earning app consistent and safe: positive rewards, balance never goes negative, and withdrawal amount checks.",
+      "files": [
+        "frontend/src/components/feedback/ErrorBanner.tsx",
+        "frontend/src/pages/EarnPage.tsx",
+        "frontend/src/pages/WithdrawPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-cohesive-creative-visual-theme-colors-typography-layout-suitable-for-a-banana-earn-rewards-app-and-use-it-consistently-across-all-screens",
+      "featureTitle": "Apply a cohesive, creative visual theme (colors, typography, layout) suitable for a “Banana Earn” rewards app and use it consistently across all screens.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/layout/AppLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-and-include-static-visual-assets-for-the-app-logo-simple-header-hero-illustration-and-render-them-from-frontend-static-assets",
+      "featureTitle": "Generate and include static visual assets for the app (logo + simple header/hero illustration) and render them from frontend static assets.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/marketing/SignedOutHero.tsx",
+        "frontend/src/components/nav/TopNav.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

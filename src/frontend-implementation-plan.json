@@ -1,0 +1,182 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Banana Earn — Frontend implementation plan",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Integrate Internet Identity login using existing hooks and present signed-in vs signed-out experiences (with logout clearing cached data).",
+      "acceptanceCriteria": [
+        "When signed out, the app shows a clear call-to-action to sign in with Internet Identity.",
+        "When signed in, the app shows the user’s identity (or a shortened principal) and a logout button.",
+        "No read-only (immutable) hook files are modified; authentication is integrated using the existing Internet Identity hooks."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "create",
+          "description": "Create the main application shell that consumes the existing Internet Identity hooks (useInternetIdentity + useActor) to render a signed-out landing vs signed-in app experience, including a top header with user info and logout. Use the authorization component’s frontend guidance for profile-first display (name when available; otherwise shortened principal). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "create",
+          "description": "Create a reusable Login/Logout button that calls useInternetIdentity().login/clear and clears React Query cache on logout (QueryClient.clear), matching the authorization component’s recommended behavior. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "operation": "create",
+          "description": "Create a first-login profile setup dialog that prompts for a display name and saves it via backend saveCallerUserProfile; only show when authenticated and getCallerUserProfile returns null (avoid modal flash per authorization component guidance). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/AuthGate.tsx",
+          "operation": "create",
+          "description": "Create an auth gate wrapper that blocks all app data views unless authenticated (signed-out users only see the landing CTA). Ensure all user-facing text is in English. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Build the main UI sections for Dashboard, Earn (tasks), and Withdraw (request + status list), wired into navigation.",
+      "acceptanceCriteria": [
+        "Dashboard displays current balance and a list of recent earning/withdrawal events.",
+        "Earn section displays tasks with reward amounts and a button to complete/claim, reflecting completion state after action.",
+        "Withdraw section allows entering an amount (validated against available balance) and submitting a withdrawal request, then shows the request in a list with status (e.g., Pending/Approved/Rejected)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "create",
+          "description": "Implement the Dashboard section showing current balance (from backend getUserBalance) and recent activity (derived from available backend data such as tasksCompleted and the caller’s withdrawal requests filtered from getAllWithdrawalRequests). Use shadcn-ui composed components (e.g., card/list/table) without modifying immutable ui component files. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/EarnPage.tsx",
+          "operation": "create",
+          "description": "Implement the Earn section that lists tasks (backend getAllTasks / getAllTasksByReward) and allows completing a task (backend completeTask). Reflect completion state by refreshing relevant queries after action. Use shadcn-ui composed components (cards/buttons/badges) without modifying immutable ui component files. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/WithdrawPage.tsx",
+          "operation": "create",
+          "description": "Implement the Withdraw section with an amount input, client-side validation against current balance, submit action (backend requestWithdrawal), and a status list of the caller’s withdrawal requests (filter from getAllWithdrawalRequests by caller principal). Use shadcn-ui composed components (form controls/table) without modifying immutable ui component files. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/nav/TopNav.tsx",
+          "operation": "create",
+          "description": "Create a top navigation/header with app branding, generated logo, and navigation between Dashboard/Earn/Withdraw (tabs/segmented nav). Show current user display name (from profile) or shortened principal plus logout. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/earn/useBalance.ts",
+          "operation": "create",
+          "description": "Add a React Query hook that reads user balance from backend getUserBalance and provides cache keys used across Dashboard and Withdraw. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/earn/useTasks.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for listing tasks (getAllTasks/getAllTasksByReward) and a mutation for completeTask with query invalidation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/earn/useWithdrawals.ts",
+          "operation": "create",
+          "description": "Add React Query hooks for listing withdrawal requests (getAllWithdrawalRequests filtered to caller) and a mutation for requestWithdrawal with query invalidation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Dashboard/Earn/Withdraw pages and TopNav into the app so none of the new pages/components are orphaned. Ensure signed-out users never see private data sections. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Add client-side anti-abuse validation and user-friendly error handling for task and withdrawal actions.",
+      "acceptanceCriteria": [
+        "Backend rejects withdrawals larger than the user’s available balance and rejects non-positive amounts.",
+        "Backend guarantees balance cannot become negative even under repeated calls.",
+        "Frontend shows user-friendly English validation messages for invalid amounts and failed actions."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/WithdrawPage.tsx",
+          "operation": "modify",
+          "description": "Add client-side validation rules: amount must be a positive number, must be <= available balance, and show clear English inline errors before submission. On backend failure, surface a friendly English message (e.g., insufficient balance / invalid amount / not authorized) and keep the form usable. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/EarnPage.tsx",
+          "operation": "modify",
+          "description": "Handle failed task completion gracefully by showing user-friendly English error messages and keeping UI state consistent; ensure completion button reflects loading/disabled state during mutation. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/feedback/ErrorBanner.tsx",
+          "operation": "create",
+          "description": "Create a small reusable error banner/toast-like inline component to present action failures consistently across pages (English-only). Use shadcn-ui composed primitives (e.g., alert) without modifying immutable ui component files. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Apply a cohesive Banana Earn visual theme (non-blue/purple palette) consistently across all screens with English-only UI copy.",
+      "acceptanceCriteria": [
+        "The app uses a consistent design system across Dashboard/Earn/Withdraw (spacing, type scale, button styles, cards).",
+        "Theme avoids a blue/purple default palette and instead uses a distinctive non-blue/purple palette appropriate for the app.",
+        "All user-facing UI text is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "create",
+          "description": "Create/define global theme tokens (CSS variables used by Tailwind/shadcn) for a distinctive Banana Earn palette (banana yellow, leaf green, cocoa/brown neutrals) and consistent base typography/spacing. Ensure no blue/purple default palette dominates. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust/extend Tailwind theme configuration as needed to support the Banana Earn palette and consistent UI styling (without introducing new global stylesheet entry points). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a shared layout wrapper that applies consistent page structure (header, content container, spacing, background) across Dashboard/Earn/Withdraw and the signed-out landing, using composed shadcn-ui components. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Apply AppLayout across signed-out and signed-in views, and ensure all user-facing text strings rendered by the app are English-only. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Include generated static assets (logo + hero) and render them from frontend static assets in the header and signed-out landing/dashboard header.",
+      "acceptanceCriteria": [
+        "Generated images are placed under frontend/public/assets/generated and referenced directly by the frontend.",
+        "App displays the generated logo in the top navigation/header.",
+        "App displays the generated header/hero illustration on the signed-out landing and/or dashboard header."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/banana-earn-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated static logo asset at frontend/public/assets/generated/banana-earn-logo.dim_512x512.png and ensure it is referenced directly by the frontend UI (no backend storage)."
+        },
+        {
+          "path": "frontend/public/assets/generated/banana-earn-hero.dim_1600x600.png",
+          "operation": "create",
+          "description": "Add the generated static hero asset at frontend/public/assets/generated/banana-earn-hero.dim_1600x600.png and ensure it is referenced directly by the frontend UI (no backend storage)."
+        },
+        {
+          "path": "frontend/src/components/nav/TopNav.tsx",
+          "operation": "modify",
+          "description": "Render the generated logo (frontend/public/assets/generated/banana-earn-logo.dim_512x512.png) in the top navigation/header. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/marketing/SignedOutHero.tsx",
+          "operation": "create",
+          "description": "Create a signed-out landing hero section that renders the generated hero illustration (frontend/public/assets/generated/banana-earn-hero.dim_1600x600.png) and includes an Internet Identity sign-in CTA. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire SignedOutHero into the signed-out experience so the hero illustration is visible when not authenticated (and optionally as a dashboard header accent when authenticated). Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

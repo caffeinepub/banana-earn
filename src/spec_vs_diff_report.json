@@ -1,0 +1,128 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-18T14:23:09.002Z",
+  "summary": "Core frontend scaffolding for an authenticated Banana Earn app is present (II login, signed-out hero CTA, navigation, Dashboard/Earn/Withdraw pages, banana-themed CSS, and generated-asset references). However, several backend/API requirements and key product behaviors (stable persistence, seeded tasks, activity/history, duplicate-prevention/repeatability, and user withdrawal listing/status) are not evidenced in the diff summary, and the backend introduces an admin/authorization system not requested.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Backend persists per-user balance and history in stable storage within the single Motoko actor.",
+      "reason": "The shown backend uses in-memory `Map.empty` for tasks/balances/profiles/withdrawals, but the diff excerpt does not show any `stable` variables or upgrade hooks to persist data, nor any 'history' model.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Backend exposes methods to fetch user dashboard data (balance + recent activity).",
+      "reason": "Frontend queries `getUserBalance()` and shows a 'Recent Activity' placeholder, but the diff does not show any backend method for dashboard/activities/history, and the backend excerpt shows no activity/event log structure.",
+      "evidence": [
+        "frontend/src/pages/DashboardPage.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Backend prevents duplicate task completion unless the task is explicitly repeatable.",
+      "reason": "Backend `Task` type in the excerpt has no repeatability flag and `completeTask` unconditionally increments balance and tasksCompleted; no completion-record check is shown.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Dashboard displays current balance and a list of recent earning/withdrawal events.",
+      "reason": "Dashboard has a hard-coded empty-state message ('No recent activity yet...') and no evidence of wiring to a backend activity list.",
+      "evidence": [
+        "frontend/src/pages/DashboardPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Earn section reflects completion state after action (e.g., disabling/marking tasks already completed).",
+      "reason": "Earn page always renders a 'Complete Task' button per task and only tracks an in-flight `completingTaskId`; no completed-state rendering is evidenced, and task IDs are synthesized from index (`task${index+1}`) rather than coming from the backend.",
+      "evidence": [
+        "frontend/src/pages/EarnPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Withdraw section shows the request in a list with status (e.g., Pending/Approved/Rejected).",
+      "reason": "The diff excerpted backend `WithdrawalRequest` has only `{ amount : Float }` (no status), and the frontend hook calls `getAllWithdrawalRequests()` with a comment about admin-only access; no per-user list/status API is evidenced.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/WithdrawPage.tsx"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Backend rejects withdrawals larger than the user’s available balance and guarantees balance cannot become negative even under repeated calls.",
+      "reason": "The backend withdrawal method is truncated at the critical balance check (`if (amount > currentBa...`), so the required behavior cannot be confirmed from the provided diff summary. Also, there is no shown balance-debit logic that demonstrates non-negative invariants.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Seed the app with at least 5 example earning tasks in the backend, including title, description, reward amount, and repeatability flag.",
+      "reason": "No seeding logic is shown; `tasks` starts as an empty map and tasks appear to be created via an admin-only `createTask`. Also, the backend `Task` type shown lacks a repeatability flag.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Generated images are placed under frontend/public/assets/generated.",
+      "reason": "Frontend references the expected paths, but the diff summary does not include evidence that the actual image files were added (they may be among the 'omitted files due to limits', but this cannot be verified from the shown summary).",
+      "evidence": [
+        "frontend/src/components/nav/TopNav.tsx",
+        "frontend/src/components/marketing/SignedOutHero.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Backend admin/role-based access control system with secret-token initialization and authorization mixins.",
+      "reason": "BuildRequest did not request an admin system, permission checks, or secret-token-based initialization; it only constrained authentication to Internet Identity for users.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/hooks/useActor.ts"
+      ]
+    },
+    {
+      "description": "Footer attribution/linking to caffeine.ai with tracking parameters.",
+      "reason": "Not requested as part of the earning app requirements; it is additional branding/telemetry functionality.",
+      "evidence": [
+        "frontend/src/components/layout/AppLayout.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.68,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupDialog.tsx",
+    "frontend/src/components/feedback/ErrorBanner.tsx",
+    "frontend/src/components/layout/AppLayout.tsx",
+    "frontend/src/components/marketing/SignedOutHero.tsx",
+    "frontend/src/components/nav/TopNav.tsx",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/pages/EarnPage.tsx",
+    "frontend/src/pages/WithdrawPage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

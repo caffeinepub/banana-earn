@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Build an earning app (money-earning app).",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Banana-themed app logo, flat vector style, high contrast (banana-earn-logo.dim_512x512.png)\n- Minimal header/hero illustration with bananas and coins, clean modern style (banana-earn-hero.dim_1600x600.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-login-and-show-a-signed-in-vs-signed-out-experience-for-the-earning-app",
+      "title": "Implement Internet Identity login and show a signed-in vs signed-out experience for the earning app.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-the-main-earning-app-ui-with-pages-sections-for-dashboard-balance-recent-activity-earn-task-list-and-withdraw-request-payout-request-status-list",
+      "title": "Build the main earning app UI with pages/sections for: Dashboard (balance + recent activity), Earn (task list), and Withdraw (request payout + request status list).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-basic-anti-abuse-and-validation-rules-to-keep-the-earning-app-consistent-and-safe-positive-rewards-balance-never-goes-negative-and-withdrawal-amount-checks",
+      "title": "Add basic anti-abuse and validation rules to keep the earning app consistent and safe: positive rewards, balance never goes negative, and withdrawal amount checks.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-cohesive-creative-visual-theme-colors-typography-layout-suitable-for-a-banana-earn-rewards-app-and-use-it-consistently-across-all-screens",
+      "title": "Apply a cohesive, creative visual theme (colors, typography, layout) suitable for a “Banana Earn” rewards app and use it consistently across all screens.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-include-static-visual-assets-for-the-app-logo-simple-header-hero-illustration-and-render-them-from-frontend-static-assets",
+      "title": "Generate and include static visual assets for the app (logo + simple header/hero illustration) and render them from frontend static assets.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create an earning app (money-earning app).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Create backend data models and APIs to support an earning (rewards) flow: user profile, balance, task completion records, and withdrawal requests.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Seed the app with a small set of example earning tasks (stored/defined in the backend) so the UI is usable immediately after deployment.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Banana Earn",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

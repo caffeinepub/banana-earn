@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.75rem;
+        
+        /* Banana-themed palette - Light mode */
+        --background: 0.98 0.02 85;
+        --foreground: 0.25 0.015 85;
+        
+        --card: 1 0 0;
+        --card-foreground: 0.25 0.015 85;
+        
+        --popover: 1 0 0;
+        --popover-foreground: 0.25 0.015 85;
+        
+        --primary: 0.72 0.15 75;
+        --primary-foreground: 0.15 0.01 75;
+        
+        --secondary: 0.95 0.03 85;
+        --secondary-foreground: 0.25 0.015 85;
+        
+        --muted: 0.95 0.02 85;
+        --muted-foreground: 0.55 0.01 85;
+        
+        --accent: 0.88 0.12 65;
+        --accent-foreground: 0.15 0.01 65;
+        
+        --destructive: 0.577 0.245 27.325;
+        --destructive-foreground: 0.985 0 0;
+        
+        --border: 0.90 0.02 85;
+        --input: 0.90 0.02 85;
+        --ring: 0.72 0.15 75;
+        
+        --chart-1: 0.72 0.15 75;
+        --chart-2: 0.65 0.18 45;
+        --chart-3: 0.88 0.12 65;
+        --chart-4: 0.55 0.10 35;
+        --chart-5: 0.78 0.14 55;
+    }
+
+    .dark {
+        --background: 0.18 0.015 85;
+        --foreground: 0.95 0.02 85;
+        
+        --card: 0.22 0.02 85;
+        --card-foreground: 0.95 0.02 85;
+        
+        --popover: 0.20 0.02 85;
+        --popover-foreground: 0.95 0.02 85;
+        
+        --primary: 0.78 0.16 75;
+        --primary-foreground: 0.15 0.01 75;
+        
+        --secondary: 0.28 0.02 85;
+        --secondary-foreground: 0.95 0.02 85;
+        
+        --muted: 0.28 0.02 85;
+        --muted-foreground: 0.65 0.02 85;
+        
+        --accent: 0.35 0.08 65;
+        --accent-foreground: 0.95 0.02 85;
+        
+        --destructive: 0.60 0.22 27;
+        --destructive-foreground: 0.95 0.02 85;
+        
+        --border: 0.30 0.02 85;
+        --input: 0.30 0.02 85;
+        --ring: 0.72 0.15 75;
+        
+        --chart-1: 0.78 0.16 75;
+        --chart-2: 0.68 0.20 45;
+        --chart-3: 0.88 0.14 65;
+        --chart-4: 0.58 0.12 35;
+        --chart-5: 0.82 0.16 55;
+    }
+
+    * {
+        @apply border-border;
+    }
+    
+    body {
+        @apply bg-background text-foreground;
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+}

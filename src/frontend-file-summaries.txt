@@ -1,0 +1,15 @@
+{
+  "frontend/src/App.tsx": "Main application component that handles authentication state, profile setup dialog, and page navigation between Dashboard, Earn, and Withdraw sections.",
+  "frontend/src/components/layout/AppLayout.tsx": "Shared layout wrapper providing consistent page structure with optional top navigation and footer with Caffeine.ai attribution.",
+  "frontend/src/components/nav/TopNav.tsx": "Top navigation header displaying app logo, navigation tabs (Dashboard/Earn/Withdraw), user display name, and login/logout button.",
+  "frontend/src/components/auth/LoginButton.tsx": "Reusable authentication button that handles Internet Identity login/logout with loading states and query cache clearing.",
+  "frontend/src/components/auth/ProfileSetupDialog.tsx": "Modal dialog for first-time users to set up their profile name after authentication.",
+  "frontend/src/components/marketing/SignedOutHero.tsx": "Landing page hero section with app branding, hero image, feature cards, and call-to-action for unauthenticated users.",
+  "frontend/src/pages/DashboardPage.tsx": "Dashboard view displaying user statistics (balance, tasks completed, total earned) and recent activity placeholder.",
+  "frontend/src/pages/EarnPage.tsx": "Task listing page where users can view available tasks and complete them to earn rewards with error handling.",
+  "frontend/src/pages/WithdrawPage.tsx": "Withdrawal management page with form for requesting withdrawals (with validation) and table showing withdrawal history.",
+  "frontend/src/components/feedback/ErrorBanner.tsx": "Reusable error alert component for displaying user-friendly error messages with optional dismiss button.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including user profile, balance, tasks, and withdrawal management with proper cache invalidation.",
+  "frontend/src/index.css": "Global styles with banana-themed OKLCH color system (yellow/amber/green palette) for both light and dark modes.",
+  "frontend/tailwind.config.js": "Tailwind configuration extending the theme with custom colors, border radius, and animations for the banana-themed design system."
+}
